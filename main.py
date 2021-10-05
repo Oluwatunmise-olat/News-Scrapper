@@ -8,15 +8,15 @@ app = FastAPI()
 
 app.include_router(api_router.router)
 
+
+# @app.on_event("startup")
+# def startup_event():
+""" Runs the following events before the application starts """
 reddit_instance = Reddit(settings.CLIENT_ID, settings.SECRET_KEY)
-
-# rem = reddit_instance.get_access_token()
-
 print(reddit_instance.access_token)
-
-print(reddit_instance.get_latest_news('fastapi', 1))
+# print(reddit_instance.get_latest_news('fastapi', 1))
 
 
 @app.get("/name")
 def testing():
-    return {'data': settings.config, 'access_token': reddit_instance.access_token, 'rediit': reddit_instance.get_latest_news('fastapi', 1)}
+    return {'data': settings.config, 'access_token': reddit_instance.access_token, 'rediit': reddit_instance.get_latest_news('fastapi', 2)}

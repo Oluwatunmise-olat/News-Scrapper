@@ -41,8 +41,8 @@ class Reddit:
             and returns it as a dictionary.
         """
         clean_data = {
-            'headline': response['data']['children']['data']['title'],
-            'link': response['data']['children']['data']['url'],
+            'headline': response['data']['title'],
+            'link': response['data']['url'],
             'source': 'fastapi'
         }
         return clean_data
@@ -55,5 +55,5 @@ class Reddit:
         }
         response = requests.get(path, headers=headers, params={'limit': limit})
         response = response.json()
-        print(response)
-        return list(map(Reddit.cleaned_data, response))
+        data = response['data']['children']
+        return list(map(Reddit.cleaned_data, data))
