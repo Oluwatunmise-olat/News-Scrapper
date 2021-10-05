@@ -1,17 +1,19 @@
 import requests
 
-from ..settings import News_API_KEY
+from .. import settings
 
 
 class NewsAPI:
 
     BaseUrl = "https://newsapi.org/v2"
-    params = {
-        'apikey': News_API_KEY,
-    }
     headers = {
         'Content-Type': 'application/json'
     }
+
+    def __init__(self, NEWS_API_KEY):
+        self.params = {
+            'apikey': NEWS_API_KEY,
+        }
 
     @staticmethod
     def cleaned_data(response):
@@ -27,8 +29,7 @@ class NewsAPI:
         }
         return clean_data
 
-    @staticmethod
-    def get_everything(query_parameter):
+    def get_everything(self, query_parameter, pagesize: int = 10):
         """
             Searches every article published over 80,000
             different sources in the past 3 years.
@@ -37,16 +38,17 @@ class NewsAPI:
         path = NewsAPI.BaseUrl + "/everything"
         params = {
             'q': query_parameter,
-            **NewsAPI.params
+            'pageSize': pagesize,
+            **self.params
         }
-        response = requests.get(path, params=params, headers=NewsAPI.headers).json()
+        response = requests.get(path, params=params, headers=NewsAPI.headers)
         if response.status_code != 200:
             return None
         else:
+            response = response.json()
             return list(map(NewsAPI.cleaned_data, response.get('articles')))
 
-    @staticmethod
-    def headlines():
+    def headlines(self):
         """
             Returns breaking news headlines for countries, categories,
             and singular publishers.
@@ -56,10 +58,11 @@ class NewsAPI:
         path = NewsAPI.BaseUrl + "/top-headlines"
         params = {
             'category': 'general',
-            **NewsAPI.params
+            **self.params
         }
-        response = requests.get(path, params=params, headers=NewsAPI.headers).json()
+        response = requests.get(path, params=params, headers=NewsAPI.headers)
         if response.status_code != 200:
             return None
         else:
+            response = response.json()
             return list(map(NewsAPI.cleaned_data, response.get('articles')))
