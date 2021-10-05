@@ -1,6 +1,6 @@
 import requests
 
-from .settings import News_API_KEY
+from ..settings import News_API_KEY
 
 
 class NewsAPI:
@@ -15,6 +15,11 @@ class NewsAPI:
 
     @staticmethod
     def cleaned_data(response):
+        """
+            Extracts Needed data from response
+            and returns it as a dictionary.
+        """
+
         clean_data = {
             'headline': response.get('title'),
             'link': response.get('url'),
@@ -32,7 +37,7 @@ class NewsAPI:
         path = NewsAPI.BaseUrl + "/everything"
         params = {
             'q': query_parameter,
-            ***NewsAPI.params
+            **NewsAPI.params
         }
         response = requests.get(path, params=params, headers=NewsAPI.headers).json()
         if response.status_code != 200:
@@ -51,13 +56,10 @@ class NewsAPI:
         path = NewsAPI.BaseUrl + "/top-headlines"
         params = {
             'category': 'general',
-            ***NewsAPI.params
+            **NewsAPI.params
         }
         response = requests.get(path, params=params, headers=NewsAPI.headers).json()
         if response.status_code != 200:
             return None
         else:
             return list(map(NewsAPI.cleaned_data, response.get('articles')))
-
-
-->headline, link, source

@@ -1,11 +1,10 @@
 from fastapi import APIRouter, status, HTTPException
-# import asyncio
 
 from . import schemas
 
 router = APIRouter(
     prefix='/news',
-    tags=['newsapi']
+    tags=['News Aggregator']
 )
 
 
