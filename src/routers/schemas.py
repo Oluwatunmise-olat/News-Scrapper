@@ -8,7 +8,3 @@ class ListSchema(BaseModel):
 
     class Config():
         orm_mode = True
-
-
-class SearchSchema(BaseModel):
-    query: str

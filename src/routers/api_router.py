@@ -1,6 +1,9 @@
+import asyncio
 from fastapi import APIRouter, status, HTTPException
+from typing import Optional
 
 from . import schemas
+from ..run_task import reddit_data, newsApi_data
 
 router = APIRouter(
     prefix='/news',
@@ -8,11 +11,10 @@ router = APIRouter(
 )
 
 
-@router.get('/', status_code=status.HTTP_200_OK, response_model=schemas.ListSchema)
-def list():
-    return {'headline': 'from newsapi', 'link': 'www.from reddit api', 'source': 'Newsapi'}
+@router.get('/', status_code=status.HTTP_200_OK)
+async def NewsEndpoint(query: Optional[str] = None, limit: int = 1):
 
+    reddit_result = await reddit_data(query, limit)
+    newsapi_result = await newsApi_data(query, limit)
 
-@router.get('/search/', status_code=status.HTTP_200_OK)
-def search(query: schemas.SearchSchema):
-    return {'data': "ff"}
+    return {'data': [reddit_result, newsapi_result]}
