@@ -1,4 +1,5 @@
 import requests
+from typing import Optional
 
 from .. import settings
 
@@ -29,12 +30,15 @@ class NewsAPI:
         }
         return clean_data
 
-    def get_everything(self, query_parameter, pagesize: int = 10):
+    def get_everything(self, query_parameter: Optional[str] = None, pagesize: int = 10):
         """
             Searches every article published over 80,000
             different sources in the past 3 years.
             Ideal for news analysis and article discovery.
         """
+        if not query_parameter:
+            return self.headlines
+
         path = NewsAPI.BaseUrl + "/everything"
         params = {
             'q': query_parameter,

@@ -1,4 +1,5 @@
 import requests
+from typing import Optional
 
 from .. import settings
 
@@ -47,12 +48,17 @@ class Reddit:
         }
         return clean_data
 
-    def get_latest_news(self, query, limit: int = 10):
-        path = self.BASE_URL + f"/{query}/new"
+    def get_latest_news(self, query: Optional[str] = None, limit: int = 10):
+
         headers = {
             'Authorization': f'Bearer {self.access_token}',
             **self.HEADERS,
         }
+
+        if not query:
+            path = self.BASE_URL + "/new"
+        path = self.BASE_URL + f"/{query}/new"
+
         response = requests.get(path, headers=headers, params={'limit': limit})
         response = response.json()
         data = response['data']['children']
