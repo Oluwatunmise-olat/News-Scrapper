@@ -7,7 +7,8 @@ from src.BaseClass.NewsApi import settings, NewsAPI
 
 async def reddit_data(query: Optional[str] = None, limit: Optional[int] = None):
     # Instantiate class Instances
-    reddit_instance = Reddit(settings.CLIENT_ID, settings.SECRET_KEY)
+    reddit_instance = Reddit('ZjdmZT8TfOm9oAD38koOPQ', 'mmny89R1I5FJhAj5HNVK9PC-mSKTGA')
+    # reddit_instance = Reddit(settings.CLIENT_ID, settings.SECRET_KEY)
     if not limit:
         requested_data = reddit_instance.get_latest_news(query)
     requested_data = reddit_instance.get_latest_news(query, limit=limit)
@@ -16,7 +17,8 @@ async def reddit_data(query: Optional[str] = None, limit: Optional[int] = None):
 
 async def newsApi_data(query: Optional[str] = None, limit: Optional[int] = None):
     # Instantiate class Instances
-    newsapi_instance = NewsAPI(settings.NEWS_API_KEY)
+    newsapi_instance = NewsAPI('e916ac6646da440981b352aca769511d')
+    # newsapi_instance = NewsAPI(settings.NEWS_API_KEY)
     if not limit:
         requested_data = newsapi_instance.get_everything(query)
     requested_data = newsapi_instance.get_everything(query, pagesize=limit)
