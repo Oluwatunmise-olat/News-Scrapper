@@ -44,7 +44,7 @@ class Reddit:
         clean_data = {
             'headline': response['data']['title'],
             'link': response['data']['url'],
-            'source': 'fastapi'
+            'source': 'reddit
         }
         return clean_data
 
